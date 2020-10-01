@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "nolifecore:block/example_ore"
+    }
+  }
+}
