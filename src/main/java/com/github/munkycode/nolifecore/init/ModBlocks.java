@@ -1,6 +1,7 @@
 package com.github.munkycode.nolifecore.init;
 
 import com.github.munkycode.nolifecore.NoLifeCore;
+import com.github.munkycode.nolifecore.blocks.ExampleOre;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -14,7 +15,7 @@ public final class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NoLifeCore.MODID);
 
-    public static final RegistryObject<Block> EXAMPLE_ORE = BLOCKS.register("example_ore", ()-> new Block(AbstractBlock.Properties.create(Material.ROCK)));
+    public static final RegistryObject<Block> EXAMPLE_ORE = BLOCKS.register("example_ore", ExampleOre::new);
 
 
 }
