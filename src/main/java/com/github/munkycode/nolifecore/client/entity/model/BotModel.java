@@ -1,19 +1,16 @@
 package com.github.munkycode.nolifecore.client.entity.model;
 
 
-import com.github.munkycode.nolifecore.entities.BotEntity;
+import com.github.munkycode.nolifecore.entity.BotEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.entity.model.QuadrupedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
 public class BotModel<T extends BotEntity> extends PlayerModel<T> {
     private final ModelRenderer head;
-    private final ModelRenderer headwear;
+    //private final ModelRenderer headwear;
     private final ModelRenderer body;
     private final ModelRenderer right_arm;
     private final ModelRenderer left_arm;
@@ -29,13 +26,13 @@ public class BotModel<T extends BotEntity> extends PlayerModel<T> {
         head.setRotationPoint(0.0F, 0.0F, 0.0F);
         head.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-        headwear = new ModelRenderer(this, 32, 0);
-        headwear.setRotationPoint(0.0F, 0.0F, 0.0F);
-        headwear.setTextureOffset(32, 0).addBox(-4.0F, -7.75F, -4.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
+        //headwear = new ModelRenderer(this, 32, 0);
+        //headwear.setRotationPoint(0.0F, 0.0F, 0.0F);
+        //headwear.setTextureOffset(32, 0).addBox(-4.0F, -7.75F, -4.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
 
         body = new ModelRenderer(this, 16, 16);
-        this.bipedBody.addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0f, false);
-        this.bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.body.addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0f, false);
+        this.body.setRotationPoint(0.0F, 0.0F, 0.0F);
 
         right_arm = new ModelRenderer(this, 40, 16);
         this.right_arm.addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0f, false);
@@ -53,6 +50,7 @@ public class BotModel<T extends BotEntity> extends PlayerModel<T> {
         left_leg = new ModelRenderer(this, 16, 48);
         this.left_leg.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0f, false);
         this.left_leg.setRotationPoint(1.9F, 12.0F, 0.0F);
+
     }
 
     @Override
@@ -116,7 +114,7 @@ public class BotModel<T extends BotEntity> extends PlayerModel<T> {
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
         head.render(matrixStack, buffer, packedLight, packedOverlay);
-        headwear.render(matrixStack, buffer, packedLight, packedOverlay);
+        //headwear.render(matrixStack, buffer, packedLight, packedOverlay);
         body.render(matrixStack, buffer, packedLight, packedOverlay);
         right_arm.render(matrixStack, buffer, packedLight, packedOverlay);
         left_arm.render(matrixStack, buffer, packedLight, packedOverlay);

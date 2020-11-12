@@ -2,7 +2,7 @@ package com.github.munkycode.nolifecore.client.entity.render;
 
 import com.github.munkycode.nolifecore.NoLifeCore;
 import com.github.munkycode.nolifecore.client.entity.model.BotModel;
-import com.github.munkycode.nolifecore.entities.BotEntity;
+import com.github.munkycode.nolifecore.entity.BotEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.util.ResourceLocation;

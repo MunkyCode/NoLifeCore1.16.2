@@ -1,19 +1,22 @@
 package com.github.munkycode.nolifecore;
 
 
-import com.github.munkycode.nolifecore.entities.BotEntity;
+import com.github.munkycode.nolifecore.entity.BotEntity;
 import com.github.munkycode.nolifecore.init.ModBlocks;
 import com.github.munkycode.nolifecore.init.ModEntityType;
 import com.github.munkycode.nolifecore.init.ModItems;
+import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +30,7 @@ public class NoLifeCore {
     public NoLifeCore(){
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+
 
         ModBlocks.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModItems.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -44,6 +48,11 @@ public class NoLifeCore {
 
     private void doClientStuff(final FMLClientSetupEvent event) { }
 
+    @SubscribeEvent
+    public void init(RegisterCommandsEvent event){
+        botCommand.register(event.getDispatcher());
+    }
+
 
     public static final ItemGroup TAB = new ItemGroup("nolifecore") {
         @Override
@@ -53,3 +62,5 @@ public class NoLifeCore {
     };
 
 }
+
+

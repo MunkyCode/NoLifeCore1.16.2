@@ -1,7 +1,7 @@
 package com.github.munkycode.nolifecore.init;
 
 import com.github.munkycode.nolifecore.NoLifeCore;
-import com.github.munkycode.nolifecore.entities.BotEntity;
+import com.github.munkycode.nolifecore.entity.BotEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
