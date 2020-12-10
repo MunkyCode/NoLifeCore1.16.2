@@ -51,7 +51,7 @@ public class BotEntity extends MonsterEntity {
         this.goalSelector.addGoal(0, new FindWoodGoal(this, 1));
         this.goalSelector.addGoal(0, new BotBreakBlock(this));
         this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(9, new RandomWalkingGoal2(this, 1.0));
+        this.goalSelector.addGoal(9, new RandomWalkingGoal2(this, 0.75));
     }
 
     /**
@@ -103,7 +103,7 @@ public class BotEntity extends MonsterEntity {
         for(ItemEntity itementity : this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(1.0D, 0.0D, 1.0D))) {
             if (!itementity.removed && !itementity.getItem().isEmpty() && !itementity.cannotPickup()) {
                 boolean temp = this.inventory.addItemStackToInventory(itementity.getItem());
-                System.out.println(temp?"treu":"fales");
+                //System.out.println(temp?"treu":"fales");
             }
         }
 
