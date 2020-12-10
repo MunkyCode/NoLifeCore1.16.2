@@ -261,6 +261,7 @@ public class BotInventory implements IInventory, INameable {
      * place the entire stack in the inventory.
      */
     public boolean addItemStackToInventory(ItemStack itemStackIn) {
+
         return this.add(-1, itemStackIn);
     }
 
@@ -612,6 +613,19 @@ public class BotInventory implements IInventory, INameable {
         }
 
         return false;
+    }
+
+    public int itemCount(Item item){
+        int total = 0;
+        for(List<ItemStack> list : this.allInventories) {
+            for(ItemStack itemstack : list) {
+                if (!itemstack.isEmpty() && itemstack.getItem() == item) {
+                    total += itemstack.getCount();
+                }
+            }
+        }
+
+        return total;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -1,13 +1,16 @@
 package com.github.munkycode.nolifecore.entity;
 
+import com.github.munkycode.nolifecore.entity.ai.goal.BotBreakBlock;
 import com.github.munkycode.nolifecore.entity.ai.goal.FindWoodGoal;
 import com.github.munkycode.nolifecore.entity.ai.goal.RandomWalkingGoal2;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -16,11 +19,16 @@ import javax.annotation.Nullable;
 
 public class BotEntity extends MonsterEntity {
 
+    public BlockPos breakBlock;
+    public boolean foundBlock;
+
     public final BotInventory inventory = new BotInventory(this);
 
     public BotEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
         this.setCanPickUpLoot(true);
+        breakBlock = null;
+        foundBlock = false;
     }
 
 
@@ -39,6 +47,7 @@ public class BotEntity extends MonsterEntity {
         //this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D, 0.0F));
 
         this.goalSelector.addGoal(0, new FindWoodGoal(this, 1));
+        this.goalSelector.addGoal(0, new BotBreakBlock(this));
     }
 
     /**
@@ -89,7 +98,8 @@ public class BotEntity extends MonsterEntity {
         this.world.getProfiler().startSection("looting");
         for(ItemEntity itementity : this.world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(1.0D, 0.0D, 1.0D))) {
             if (!itementity.removed && !itementity.getItem().isEmpty() && !itementity.cannotPickup()) {
-                this.inventory.addItemStackToInventory(itementity.getItem());
+                boolean temp = this.inventory.addItemStackToInventory(itementity.getItem());
+                System.out.println(temp?"treu":"fales");
             }
         }
 

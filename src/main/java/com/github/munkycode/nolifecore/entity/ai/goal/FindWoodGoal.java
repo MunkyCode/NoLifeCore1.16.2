@@ -22,40 +22,64 @@ public class FindWoodGoal extends Goal {
     private double z;
     private boolean foundTree;
     private BlockPos tree;
+    private BlockPos lastTree;
+    private boolean justMinedBlock;
 
     public FindWoodGoal(BotEntity bot, double speed) {
         this.bot = bot;
         this.speed = speed;
         foundTree = false;
+        justMinedBlock = false;
     }
 
     @Override
     public boolean shouldExecute() {
-        if(this.bot.inventory.hasItem(Items.OAK_LOG)) {
-            System.out.println("has Log");
+        if(this.bot.inventory.itemCount(Items.OAK_LOG) > Integer.MAX_VALUE - 2) {
+            //System.out.println(this.bot.inventory.itemCount(Items.OAK_LOG));
+            this.bot.foundBlock = false;
             return false;
         }
         if(foundTree) return true;
         BlockPos blockpos = null;
+        double distTo = Float.MAX_VALUE;
         double dist = 10.0d;
-        for(BlockPos blockpos1 : BlockPos.getAllInBoxMutable(MathHelper.floor(this.bot.getPosX() - dist), MathHelper.floor(this.bot.getPosY() - dist), MathHelper.floor(this.bot.getPosZ() - dist), MathHelper.floor(this.bot.getPosX() + dist), MathHelper.floor(this.bot.getPosY() + dist), MathHelper.floor(this.bot.getPosZ() + dist))) {
-           if (bot.world.getBlockState(blockpos1).getBlock() == Blocks.OAK_LOG) {
-                blockpos = blockpos1;
-                break;
+        if(justMinedBlock){
+            if(bot.world.getBlockState(lastTree.add(0,1,0)).getBlock() == Blocks.OAK_LOG){
+                blockpos = lastTree.add(0,1,0);
             }
-       }
+            else{
+                blockpos = null;
+                justMinedBlock = false;
+                lastTree = null;
+            }
+
+        }
+        else {
+            for (BlockPos blockpos1 : BlockPos.getAllInBoxMutable(MathHelper.floor(this.bot.getPosX() - dist), MathHelper.floor(this.bot.getPosY() - dist), MathHelper.floor(this.bot.getPosZ() - dist), MathHelper.floor(this.bot.getPosX() + dist), MathHelper.floor(this.bot.getPosY() + dist), MathHelper.floor(this.bot.getPosZ() + dist))) {
+                if (bot.world.getBlockState(blockpos1).getBlock() == Blocks.OAK_LOG) {
+                    blockpos = blockpos1;
+                    break;
+                    //System.out.println("foundLog");
+//                       if(blockpos1.distanceSq(bot.getPosition()) < distTo){
+//                           System.out.println("log closer");
+//                           blockpos = blockpos1;
+//                           distTo = blockpos1.distanceSq(bot.getPosition());
+//                       }
+                }
+            }
+        }
 
         if (blockpos != null) {
             tree = blockpos;
             this.x = blockpos.getX();
             this.y = blockpos.getY();
             this.z = blockpos.getZ();
-            System.out.println("true block pos != null");
             foundTree = true;
+            this.bot.foundBlock = true;
+            this.bot.breakBlock = tree;
             return true;
         }
        else{
-            System.out.println("false");
            return false;
        }
     }
@@ -66,13 +90,24 @@ public class FindWoodGoal extends Goal {
     }
 
     public boolean shouldContinueExecuting() {
+        if(this.tree == null) return false;
+        else if(this.tree.withinDistance(this.bot.getPositionVec(), 2.0D)) {
+            this.bot.getNavigator().clearPath();
+            return false;
+        }
         return !this.bot.getNavigator().noPath() && !this.bot.isBeingRidden();
     }
 
     @Override
     public void resetTask() {
         bot.getNavigator().clearPath();
-        if(bot.world.getBlockState(tree).getBlock() != Blocks.OAK_LOG) foundTree = false;
+        if(bot.world.getBlockState(tree).getBlock() != Blocks.OAK_LOG){
+            lastTree = tree;
+            tree = null;
+            foundTree = false;
+            justMinedBlock = true;
+            this.bot.foundBlock = false;
+        }
         super.resetTask();
     }
 }
