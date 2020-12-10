@@ -6,6 +6,8 @@ import com.github.munkycode.nolifecore.entity.ai.goal.RandomWalkingGoal2;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.item.ItemStack;
@@ -48,6 +50,8 @@ public class BotEntity extends MonsterEntity {
 
         this.goalSelector.addGoal(0, new FindWoodGoal(this, 1));
         this.goalSelector.addGoal(0, new BotBreakBlock(this));
+        this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(9, new RandomWalkingGoal2(this, 1.0));
     }
 
     /**

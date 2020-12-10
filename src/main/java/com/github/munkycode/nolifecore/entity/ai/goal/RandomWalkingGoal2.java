@@ -2,13 +2,15 @@ package com.github.munkycode.nolifecore.entity.ai.goal;
 
 import java.util.EnumSet;
 import javax.annotation.Nullable;
+
+import com.github.munkycode.nolifecore.entity.BotEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.vector.Vector3d;
 
 public class RandomWalkingGoal2 extends Goal {
-    protected final CreatureEntity creature;
+    protected final BotEntity creature;
     protected double x;
     protected double y;
     protected double z;
@@ -17,15 +19,15 @@ public class RandomWalkingGoal2 extends Goal {
     protected boolean mustUpdate;
     private boolean field_234053_h_;
 
-    public RandomWalkingGoal2(CreatureEntity creatureIn, double speedIn) {
+    public RandomWalkingGoal2(BotEntity creatureIn, double speedIn) {
         this(creatureIn, speedIn, 120);
     }
 
-    public RandomWalkingGoal2(CreatureEntity creatureIn, double speedIn, int chance) {
+    public RandomWalkingGoal2(BotEntity creatureIn, double speedIn, int chance) {
         this(creatureIn, speedIn, chance, true);
     }
 
-    public RandomWalkingGoal2(CreatureEntity creature, double speed, int chance, boolean p_i231550_5_) {
+    public RandomWalkingGoal2(BotEntity creature, double speed, int chance, boolean p_i231550_5_) {
         this.creature = creature;
         this.speed = speed;
         this.executionChance = chance;
@@ -38,10 +40,15 @@ public class RandomWalkingGoal2 extends Goal {
      * method as well.
      */
     public boolean shouldExecute() {
+        if (this.creature.foundBlock)
+            return false;
         Vector3d vector3d = this.getPosition();
         if (vector3d == null) {
             return false;
         } else {
+            if (this.creature.getRNG().nextInt(this.executionChance) != 0) {
+                return false;
+            }
             this.x = vector3d.x;
             this.y = vector3d.y;
             this.z = vector3d.z;
